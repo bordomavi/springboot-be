@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Built-By: Diaz
+Build-Jdk: 11.0.18
+Implementation-Title: petclinic
+Implementation-Version: 0.0.1-SNAPSHOT
+Implementation-Vendor-Id: com.javaegitimleri
+Implementation-URL: https://projects.spring.io/spring-boot/#/spring-boot
+ -starter-parent/petclinic
+Created-By: Maven Integration for Eclipse
+
