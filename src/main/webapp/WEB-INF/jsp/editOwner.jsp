@@ -15,7 +15,7 @@
 		Last Name:<form:input path="lastName"/>
 		<form:errors path ="lastName" cssStyle="color:red"/>
 		<br/>
-		<form:button name="submit">Create</form:button>
+		<form:button name="submit">Update</form:button>
 	</form:form>
 </body>
 </html>

@@ -9,13 +9,9 @@
 </head>
 <body>
 	<form:form modelAttribute="owner" method="post">
-		First Name:<form:input path="firstName"/>
-		<form:errors path ="firstName" cssStyle="color:red"/>
-		<br/>
-		Last Name:<form:input path="lastName"/>
-		<form:errors path ="lastName" cssStyle="color:red"/>
-		<br/>
-		<form:button name="submit">Create</form:button>
+		First Name:<form:input path="firstName"/><br/>
+		Last Name:<form:input path="lastName"/><br/>
+		<form:button name="submit">Delete</form:button>
 	</form:form>
 </body>
 </html>

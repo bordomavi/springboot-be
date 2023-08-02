@@ -3,6 +3,8 @@ package com.javaegitimleri.petclinic.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -21,6 +23,9 @@ public class PetClinicServiceImpl implements PetClinicService {
 	private OwnerRepository ownerRepository;
 	
 	private PetRepository petRepository;
+	
+	@Autowired
+	private JavaMailSender javaMailSender;
 
 	@Autowired
 	public void setOwnerRepository(OwnerRepository ownerRepository) {
@@ -56,6 +61,15 @@ public class PetClinicServiceImpl implements PetClinicService {
 	@Override
 	public void createOwner(Owner owner) {
 		ownerRepository.create(owner);
+		
+		SimpleMailMessage message = new SimpleMailMessage();
+		
+		message.setFrom("k@s");
+		message.setTo("m@y");
+		message.setSubject("Owner created!");
+		message.setText("Owner entity with id : "+ owner.getId() +" created succesfully..");
+		
+		javaMailSender.send(message);
 	}
 
 	@Override
