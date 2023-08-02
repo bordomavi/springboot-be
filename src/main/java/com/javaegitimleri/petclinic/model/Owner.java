@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
 
 
 @Entity
@@ -23,14 +24,16 @@ public class Owner{
 	@SequenceGenerator(name ="petClinicSeqGen", sequenceName = "petclinic_sequence" )
 	private Long id;
 	
+	@NotEmpty
 	@Column(name="first_name")
 	private String firstName;
 	
+	@NotEmpty
 	@Column(name="last_name")
 	private String lastName;
 	
-//	@OneToMany(targetEntity=Pet.class, mappedBy="owner", fetch=FetchType.EAGER)
-//	private Set<Pet> pets = new HashSet<>();
+	@OneToMany(targetEntity=Pet.class, mappedBy="owner", fetch=FetchType.EAGER)
+	private Set<Pet> pets = new HashSet<>();
 	
 	public Long getId() {
 		return id;
@@ -50,12 +53,12 @@ public class Owner{
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-//	public Set<Pet> getPets() {
-//		return pets;
-//	}
-//	public void setPets(Set<Pet> pets) {
-//		this.pets = pets;
-//	}
+	public Set<Pet> getPets() {
+		return pets;
+	}
+	public void setPets(Set<Pet> pets) {
+		this.pets = pets;
+	}
 	
 	
 	

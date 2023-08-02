@@ -27,17 +27,17 @@ public class Pet {
 	@Column(name="birth_date")
 	private Date birthDate;
 	
-//	@ManyToOne
-//	@JoinColumn(name="owner_id", nullable=false)
-//	private Owner owner;
+	@ManyToOne
+	@JoinColumn(name="owner_id")
+	private Owner owner;
 	
 	
-//	public Owner getOwner() {
-//		return owner;
-//	}
-//	public void setOwner(Owner owner) {
-//		this.owner = owner;
-//	}
+	public Owner getOwner() {
+		return owner;
+	}
+	public void setOwner(Owner owner) {
+		this.owner = owner;
+	}
 	public Long getId() {
 		return id;
 	}
