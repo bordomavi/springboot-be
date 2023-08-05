@@ -3,8 +3,12 @@ package com.javaegitimleri.petclinic.web;
 import java.net.URI;
 import java.util.List;
 
+import javax.validation.ConstraintViolationException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.ServletComponentScan;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.mvc.ControllerLinkBuilder;
@@ -31,8 +35,10 @@ public class PetClinicRestController {
 	@Autowired
 	private PetClinicService petClinicService;
 
+	@Cacheable("allOwners")  // datayı cache lemeye yarar, 2 ve fazlası olan isteklerde api cagırılmaz cache den bilgi cekilir.
 	@RequestMapping(method = RequestMethod.GET, value = "/owners")
 	public ResponseEntity<List<Owner>> getAllOwners() {
+		System.out.println(">>>inside getOwners...");
 		List<Owner> owners = petClinicService.findOwners();
 		return ResponseEntity.ok(owners);
 	}
@@ -53,7 +59,7 @@ public class PetClinicRestController {
 		}
 	}
 	
-	
+	@CacheEvict(cacheNames = "allOwners", allEntries =true)  // her yeni create de cache i temizler bosaltır ki cache ilk requeste göre kalmasın güncellensin
 	@RequestMapping(method=RequestMethod.POST, value="/owner")
 	public ResponseEntity<URI> createOwner(@RequestBody Owner owner){
 		
@@ -62,11 +68,14 @@ public class PetClinicRestController {
 			Long id = owner.getId();
 			URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(id).toUri();
 			return ResponseEntity.created(location).build();
-		}  catch (Exception ex) {
+		}catch(ConstraintViolationException ex){
+			return ResponseEntity.status(HttpStatus.PRECONDITION_FAILED).build();
+		}catch (Exception ex) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
 	}
 	
+	@CacheEvict(cacheNames = "allOwners", allEntries =true)  // her yeni create de cache i temizler bosaltır ki cache ilk requeste göre kalmasın güncellensin
 	@RequestMapping(method=RequestMethod.PUT,value="/owner/{id}")
 	public ResponseEntity<?> updateOwner(@PathVariable ("id") Long id,@RequestBody Owner requestOWner){
 		
@@ -83,6 +92,7 @@ public class PetClinicRestController {
 		}
 	}
 	
+	@CacheEvict(cacheNames = "allOwners", allEntries =true)  // her yeni create de cache i temizler bosaltır ki cache ilk requeste göre kalmasın güncellensin
 	@RequestMapping(method=RequestMethod.DELETE,value="/owner/{id}")
 	public ResponseEntity<?> deleteOwner(@PathVariable ("id") Long id){
 		
